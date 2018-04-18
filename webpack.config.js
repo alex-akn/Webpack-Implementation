@@ -1,16 +1,15 @@
 const path = require('path');
+//const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const webpack = require('webpack');
+
 
 module.exports = {
-  //entry: './src/index.js',
   entry: {
-    //app: './src/index.js',
-    //print: './src/print.js'
-    app: './src/index.js'
+    index: './src/index.js'
+    //another: './src/another-module.js'
   },
-  devtool: 'inline-source-map',
+  devtool: 'source-map',
   devServer: {
     contentBase: './dist',
     hot: true
@@ -18,14 +17,15 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
-      title: 'Development'
-    }),
-    new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+      title: 'Code Splitting'
+    })
+    //new webpack.NamedModulesPlugin(),
+    //new webpack.HotModuleReplacementPlugin()
   ],
   output: {
     //filename: 'bundle.js',
     filename: '[name].bundle.js',
+    chunkFilename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
     //publicPath: '/'
   },

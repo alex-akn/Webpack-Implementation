@@ -1,48 +1,25 @@
 import _ from 'lodash';
-import { cube } from './math.js';
-import './styles.css';
-//import Icon from './icon.png';
-//import Data from './data.xml';
-import printMe from './print.js';
 
 function component() {
-  var element = document.createElement('div');
-  var btn = document.createElement('button');
-  var pre = document.createElement('pre');
+   var element = document.createElement('div');
 
-  element.innerHTML = _.join(['Hello', 'webpack'], ' ');
-  pre.innerHTML = [
-    'Hello again!',
-    '5 cubed is equal to ' + cube(5)
-  ].join('\n\n');
-  element.appendChild(pre);
-  //element.classList.add('hello');
+   var button = document.createElement('button');
+   var br = document.createElement('br');
 
-  //var myIcon = new Image();
-  //myIcon.src = Icon;
-  //element.appendChild(myIcon);
+   button.innerHTML = 'Click me and look at the console';
+   element.innerHTML = _.join(['Hello', 'webpack'], ' ');
+   element.appendChild(br);
+   element.appendChild(button);
 
-  //console.log(Data);
+   // Note that because a network request is involved, some indication
+   // of loading would need to be shown in a production-level site/app.
 
-  btn.innerHTML = 'Click me once';
-  btn.onclick = printMe;
+    button.onclick = e => import(/* webpackChunkName: "print" */ './print').then(module => {
+      var print = module.default;
+      print();
+    });
 
-  element.appendChild(btn);
-
-  return element;
+    return element;
 }
 
-//document.body.appendChild(component());
-let element = component(); // Store the element to re-render on print.js changes
-document.body.appendChild(element);
-
-
-if(module.hot) {
-  module.hot.accept('./print.js', function(){
-    console.log('Accepting the updated printMe module!');
-    //printMe();
-    document.body.removeChild(element);
-    element = component(); //Re-render the "component" to update the click handler
-    document.body.appendChild(element);
-  });
-}
+document.body.appendChild(component());
